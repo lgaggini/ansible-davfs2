@@ -1,0 +1,19 @@
+---
+- name: davfs2 | install davfs2 packages
+  apt: name={{ item }} state=latest  update_cache=yes
+  with_items: "{{ davfs2_packages }}"
+
+- name: davfs2 | configure davfs2 packages
+  lineinfile: path=/etc/davfs2/davfs2.conf regexp="^#use_locks" line="use_locks 0"
+
+- name: davfs2 | configure passwords
+  lineinfile: path=/etc/davfs2/secrets line="{{ item.src }} {{ item.user }} {{ item.password }}" state=present
+  with_items: "{{ davfs2_mounts }}"
+
+- name: davfs2 | ensure dest paths are presents 
+  file: path={{ item.src }} state=directory
+  with_items: "{{ davfs2_mounts }}"
+
+- name: davfs2 | mount davfs2 mountpoints
+  mount: path={{ item.dest }} src={{ item.src }} state=mounted fstype=davfs opts="{{ item.mount }},uid={{ item.uid }},gid={{ item.guid }}"
+  with_items: "{{ davfs2_mounts }}"
