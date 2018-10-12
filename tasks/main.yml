@@ -1,6 +1,6 @@
 ---
 - name: davfs2 | install davfs2 packages
-  apt: name={{ item }} state=latest  update_cache=yes
+  pacman: name={{ item }} state=latest  update_cache=yes
   with_items: "{{ davfs2_packages }}"
 
 - name: davfs2 | configure davfs2 packages
