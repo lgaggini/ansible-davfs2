@@ -4,8 +4,4 @@ davfs2_packages:
   - davfs2
 
 # davfs2 remote storage to be mounted
-davfs2_mounts:
-  - src: https://mywebdav/resource
-    dest: /mnt/mywebdav
-    user: user
-    password: password
+davfs2_mounts: []
